@@ -14,6 +14,6 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/2.
     && mv phpredis-2.2.7 /usr/src/php/ext/redis \
     && docker-php-ext-install redis
 
-
+WORKDIR /var/www/application
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
