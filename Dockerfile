@@ -1,10 +1,11 @@
 FROM php:5-fpm
 
-RUN apt-get update && apt-get install -y curl wget git zlib1g-dev libicu-dev g++
+RUN apt-get update && apt-get install -y curl wget git zlib1g-dev libicu-dev g++ libmcrypt-dev nano
 
 RUN echo 'date.timezone = Europe/Copenhagen' > /usr/local/etc/php/conf.d/date.ini
+RUN echo 'memory_limit = "1G"' > /usr/local/etc/php/conf.d/memory.ini
 
-RUN docker-php-ext-configure intl && docker-php-ext-install pdo pdo_mysql zip intl mysql mysqli 
+RUN docker-php-ext-configure intl && docker-php-ext-install pdo pdo_mysql zip intl mysql mysqli pcntl mcrypt
 
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/2.2.7.tar.gz \
     && tar -xzf /tmp/redis.tar.gz \
