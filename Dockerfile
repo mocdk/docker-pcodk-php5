@@ -1,6 +1,6 @@
 FROM php:5-fpm
 
-RUN apt-get update && apt-get install -y curl wget git zlib1g-dev libicu-dev g++ libmcrypt-dev nano libxml2-dev
+RUN apt-get update && apt-get install -y curl wget git zlib1g-dev libicu-dev g++ libmcrypt-dev nano libxml2-dev libmemcached-dev
 
 RUN echo 'date.timezone = Europe/Copenhagen' > /usr/local/etc/php/conf.d/date.ini
 RUN echo 'memory_limit = "1G"' > /usr/local/etc/php/conf.d/memory.ini
@@ -14,6 +14,10 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/2.
     && mkdir /usr/src/php/ext \
     && mv phpredis-2.2.7 /usr/src/php/ext/redis \
     && docker-php-ext-install redis
+
+## Memcached
+RUN pecl install memcached-2.2.0 && docker-php-ext-enable memcached
+
 
 WORKDIR /var/www/application
 RUN curl -sS https://getcomposer.org/installer | php
